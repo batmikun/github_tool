@@ -22,9 +22,10 @@ fn main() {
                     .arg(commit_message)
                     .output()
                 {
-                    Ok(_stdout) => {
-                        println!("The commit was made succesfully")
-                    }
+                    Ok(_stdout) => match Command::new("git").arg("push").output() {
+                        Ok(_stdout) => println!("The new commit is pushed"),
+                        Err(err) => println!("{:?}", err),
+                    },
                     Err(err) => println!("{:?}", err),
                 }
             }
